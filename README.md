@@ -1,43 +1,127 @@
-# PixelFontTreeOCR
+# PixelFontTrieOCR
 
-TODO: Delete this and the text below, and describe your gem
+**Deterministic, column-by-column Trie-based OCR for tiny, crystal-clear pixel fonts.**
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pixel_font_tree_ocr`. To experiment with that code, run `bin/console` for an interactive prompt.
+Perfect for 5–8 pixel high generated fonts where Tesseract and other general OCR engines fail.
+
+---
+
+## Why Trie?
+
+Most general-purpose OCR engines (like Tesseract) are designed for noisy, scanned, or anti-aliased text. They use machine learning, statistical models, and heavy preprocessing — which is overkill and often inaccurate for our use case.
+
+We are working with **crystal-clear, pixel-perfect, tiny fonts** (typically 5–8 pixels high) generated directly from TrueType fonts. In this environment, a completely different approach is not only possible — it is far superior.
+
+### The Trie (Prefix Tree) Advantage
+
+We built a **multi-way trie** keyed by column bitmasks (8-bit integers):
+
+- Each step in the trie represents one vertical column of pixels.
+- Branching happens on the exact bitmask value of that column.
+- Recognition is a simple left-to-right walk through the image.
+- Early exit: most characters diverge after just 1–3 columns, so we stop immediately.
+- 100% deterministic — no training, no floating point, no heuristics.
+
+### Why This Is Perfect for Tiny Pixel Fonts
+
+- Extremely fast (microseconds per character)
+- Tiny memory footprint (a few KB for a full charset)
+- Perfect accuracy on the exact font it was built for
+- Naturally supports variable-width glyphs
+- Easy to debug and reason about
+
+**General OCR** = “guess what this blurry thing might be”  
+**PixelFontTrieOCR** = “follow the exact pixel pattern until we reach a known character”
+
+This is the right tool for the job.
+
+---
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add this line to your application's Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
+```ruby
+gem 'pixel_font_trie_ocr'
+```
+And then execute:
 
 ```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+$ bundle install
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+Or install it yourself as:
 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+$ gem install pixel_font_trie_ocr
 ```
 
-## Usage
+---
 
-TODO: Write usage instructions here
+## Basic Usage
+
+```ruby
+require 'pixel_font_trie_ocr'
+
+# Render text using your font
+text_builder = PixelFontTrieOCR::TextImageBuilder.new(
+  "Hello World", 
+  "/path/to/your_font.ttf", 
+  font_size: 8
+)
+
+img = text_builder.image
+
+# Extract column bitmasks from an image
+extractor = PixelFontTrieOCR::ImageColumnExtractor.new("sample_image.png")
+masks = extractor.extract
+
+puts "Extracted #{masks.size} column masks"
+```
+
+## Using the Trie
+
+```ruby
+# Build trie from your pixel font
+trie = PixelFontTrieOCR::PixelFontTrie.from_font(
+  "/path/to/your_pixel_font.ttf",
+  characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!? ",
+  font_size: 8
+)
+
+# Recognize text from column masks
+masks = extractor.extract
+text = trie.recognize(masks)
+puts text  # => "HELLO WORLD"
+```
+
+The trie supports variable-width characters and skips whitespace columns automatically.
+
+---
+
+## Core Components
+
+| Class                    | Purpose |
+|-------------------------|--------|
+| `ImageColumnExtractor`  | Converts images → array of 8-bit column masks |
+| `ColumnImageBuilder`    | Creates test images from bitmask arrays |
+| `TextImageBuilder`      | Renders text to clean pixel images using TrueType fonts |
+| `PixelFontTrie`         | Core trie-based recognizer (`insert`, `recognize`, `from_font`) |
+
+---
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```bash
+git clone <your-repo-url>
+cd pixel_font_tree_ocr
+bundle install
+bundle exec rspec
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pixel_font_tree_ocr. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/pixel_font_tree_ocr/blob/master/CODE_OF_CONDUCT.md).
+---
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+MIT License
 
-## Code of Conduct
-
-Everyone interacting in the PixelFontTreeOCR project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/pixel_font_tree_ocr/blob/master/CODE_OF_CONDUCT.md).

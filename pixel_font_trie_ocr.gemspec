@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/pixel_font_tree_ocr/version"
+require_relative "lib/pixel_font_trie_ocr/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "pixel_font_tree_ocr"
-  spec.version = PixelFontTreeOCR::VERSION
+  spec.name = "pixel_font_trie_ocr"
+  spec.version = PixelFontTrieOCR::VERSION
   spec.authors = ["Robert Ferney"]
   spec.email = ["rob@ferney.org"]
 
@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Uncomment to register a new dependency of your gem
-  # spec.add_dependency "example-gem", "~> 1.0"
+  spec.add_dependency "rmagick", "~> 6.3"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
