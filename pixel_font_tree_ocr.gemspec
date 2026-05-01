@@ -4,7 +4,7 @@ require_relative "lib/pixel_font_tree_ocr/version"
 
 Gem::Specification.new do |spec|
   spec.name = "pixel_font_tree_ocr"
-  spec.version = PixelFontTreeOcr::VERSION
+  spec.version = PixelFontTreeOCR::VERSION
   spec.authors = ["Robert Ferney"]
   spec.email = ["rob@ferney.org"]
 

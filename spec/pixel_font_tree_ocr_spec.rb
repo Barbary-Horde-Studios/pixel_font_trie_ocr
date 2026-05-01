@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe PixelFontTreeOcr do
+RSpec.describe PixelFontTreeOCR do
   it "has a version number" do
-    expect(PixelFontTreeOcr::VERSION).not_to be nil
+    expect(PixelFontTreeOCR::VERSION).not_to be nil
   end
 
   it "does something useful" do
