@@ -30,7 +30,12 @@ module PixelFontTrieOCR
     end
 
     def character_list
-      @character_list ||= (0..0xFFFF).filter_map { |point| character(point) }
+      @character_list ||=
+        if unicode_cmap.respond_to?(:code_map)
+          unicode_cmap.code_map.keys.filter_map { |point| character(point) }
+        else
+          []
+        end
     end
 
     # Returns a string of all characters supported by the font
@@ -77,6 +82,10 @@ module PixelFontTrieOCR
 
     def units_per_em
       @units_per_em ||= font.header.units_per_em
+    end
+
+    def num_glyphs
+      @num_glyphs ||= unicode_cmap.respond_to?(:code_map) ? unicode_cmap.code_map.values.max : 0
     end
 
     # Print a friendly summary

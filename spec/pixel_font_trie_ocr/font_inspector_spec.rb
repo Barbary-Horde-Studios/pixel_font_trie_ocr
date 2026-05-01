@@ -135,6 +135,12 @@ RSpec.describe PixelFontTrieOCR::FontInspector do
     end
   end
 
+  describe "#num_glyphs" do
+    it "returns the maximum glyph ID in the font" do
+      expect(inspector.send(:num_glyphs)).to eq(84)
+    end
+  end
+
   describe "#common_charset" do
     it "returns only common alphanumeric and punctuation characters" do
       common = inspector.common_charset
