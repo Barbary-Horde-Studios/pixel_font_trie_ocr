@@ -17,6 +17,6 @@ gem "rmagick", "~> 6.3"
 gem "ttfunk", "~> 1.8"
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "debug", platforms: %i[mri windows], require: "debug/prelude"
   gem "pry-byebug", "~> 3.12"
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# spec/image_column_extractor_spec.rb
+# spec/pixel_font_trie_ocr/image_column_extractor_spec.rb
 require "spec_helper"
 require "fileutils"
 

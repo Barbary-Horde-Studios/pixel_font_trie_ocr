@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# spec/column_image_builder_spec.rb
+# spec/pixel_font_trie_ocr/column_image_builder_spec.rb
 require "spec_helper"
 
 RSpec.describe PixelFontTrieOCR::ColumnImageBuilder do

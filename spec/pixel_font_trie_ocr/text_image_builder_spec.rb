@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# spec/text_image_builder_spec.rb
+# spec/pixel_font_trie_ocr/text_image_builder_spec.rb
 require "spec_helper"
 
 RSpec.describe PixelFontTrieOCR::TextImageBuilder do
