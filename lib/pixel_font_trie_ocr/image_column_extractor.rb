@@ -51,7 +51,16 @@ module PixelFontTrieOCR
 
     def build_column_masks
       validate_height!
-      (0...width).map { |col| get_column(col) }
+      masks = (0...width).map { |col| get_column(col) }
+      trim_masks(masks)
+    end
+
+    def trim_masks(masks)
+      first_non_zero = masks.find_index(&:positive?)
+      return [0] unless first_non_zero
+
+      last_non_zero = masks.rindex(&:positive?)
+      masks[first_non_zero..last_non_zero] + [0]
     end
 
     def validate_height!

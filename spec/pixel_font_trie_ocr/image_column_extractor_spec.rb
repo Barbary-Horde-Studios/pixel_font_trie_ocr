@@ -47,4 +47,26 @@ RSpec.describe PixelFontTrieOCR::ImageColumnExtractor do
       end
     end
   end
+
+  describe "#extract with trimming" do
+    let(:font_path) { "fonts/hex-synergy_font.ttf" }
+
+    it "has no leading zeros and one trailing zero for single character" do
+      builder = PixelFontTrieOCR::TextImageBuilder.new("A", font_path)
+      extractor = described_class.new(builder.image)
+      masks = extractor.extract
+      expect(masks.first).to be > 0
+      expect(masks.last).to eq(0)
+      expect(masks[-2]).to be > 0
+    end
+
+    it "has no leading zeros and one trailing zero for multi-character string" do
+      builder = PixelFontTrieOCR::TextImageBuilder.new("ab ba", font_path)
+      extractor = described_class.new(builder.image)
+      masks = extractor.extract
+      expect(masks.first).to be > 0
+      expect(masks.last).to eq(0)
+      expect(masks[-2]).to be > 0
+    end
+  end
 end

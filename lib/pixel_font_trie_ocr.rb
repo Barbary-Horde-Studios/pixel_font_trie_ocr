@@ -8,6 +8,7 @@ require_relative "pixel_font_trie_ocr/column_image_builder"
 require_relative "pixel_font_trie_ocr/text_image_builder"
 require_relative "pixel_font_trie_ocr/pixel_font_trie"
 require_relative "pixel_font_trie_ocr/glyph_image_generator"
+require_relative "pixel_font_trie_ocr/font_image_generator"
 require_relative "pixel_font_trie_ocr/font_inspector"
 
 module PixelFontTrieOCR
