@@ -37,26 +37,28 @@ RSpec.describe PixelFontTrieOCR::FontImageGenerator do
   end
 
   describe "#generate" do
-    it "returns an array of hashes with char, image, and bitmask" do
+    it "returns an array of Map objects with char, image, and bitmask" do
       result = generator.generate
       expect(result).to be_an(Array)
-      expect(result.first).to be_a(Hash)
-      expect(result.first).to include(:char, :image, :bitmask)
+      expect(result.first).to be_a(PixelFontTrieOCR::FontImageGenerator::Map)
+      expect(result.first.char).not_to be_nil
+      expect(result.first.image).not_to be_nil
+      expect(result.first.bitmask).not_to be_nil
     end
 
     it "includes data for known characters like A" do
       result = generator.generate
-      entry = result.find { |h| h[:char] == "A" }
-      expect(entry).to be_a(Hash)
-      expect(entry[:image]).to be_a(Magick::Image)
-      expect(entry[:bitmask]).to be_an(Array)
+      entry = result.find { |m| m.char == "A" }
+      expect(entry).to be_a(PixelFontTrieOCR::FontImageGenerator::Map)
+      expect(entry.image).to be_a(Magick::Image)
+      expect(entry.bitmask).to be_an(Array)
     end
 
     it "generates correct bitmask for a character" do
       result = generator.generate
-      entry = result.find { |h| h[:char] == "A" }
-      expect(entry[:bitmask]).to be_an(Array)
-      expect(entry[:bitmask].first).to be_an(Integer)
+      entry = result.find { |m| m.char == "A" }
+      expect(entry.bitmask).to be_an(Array)
+      expect(entry.bitmask.first).to be_an(Integer)
     end
   end
 end

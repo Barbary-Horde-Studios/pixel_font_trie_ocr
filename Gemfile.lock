@@ -3,6 +3,7 @@ PATH
   specs:
     pixel_font_trie_ocr (0.1.0)
       rmagick (~> 6.3)
+      ttfunk (~> 1.8)
 
 GEM
   remote: https://rubygems.org/
@@ -107,10 +108,8 @@ DEPENDENCIES
   pixel_font_trie_ocr!
   pry-byebug (~> 3.12)
   rake (~> 13.0)
-  rmagick (~> 6.3)
   rspec (~> 3.0)
   rubocop (~> 1.21)
-  ttfunk (~> 1.8)
 
 CHECKSUMS
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
