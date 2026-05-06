@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 desc "Generate font glyph images and bitmask map to tmp/font/"
 task :font_map do
   require "yaml"
-  word = /[A-Za-z0-9]/
   pft = PixelFontTrieOCR.new
   pft.temp_dir.mkpath
 

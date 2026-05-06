@@ -10,7 +10,7 @@ RSpec.describe PixelFontTrieOCR do
     trie.insert("A", [0b111, 0b101, 0b111, 0])
     trie.insert("I", [0b100, 0b100, 0b111, 0])
 
-    expect(trie.recognize([0b111, 0b101, 0b111, 0, 0b100, 0b100, 0b111, 0])).to eq("AI")
-    expect(trie.recognize([0, 0, 0b111, 0b101, 0b111, 0])).to eq("A")
+    expect(trie.parse([0b111, 0b101, 0b111, 0, 0b100, 0b100, 0b111, 0])).to eq("AI")
+    expect(trie.parse([0, 0, 0b111, 0b101, 0b111, 0])).to eq("A")
   end
 end

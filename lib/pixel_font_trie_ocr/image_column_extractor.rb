@@ -40,7 +40,7 @@ class PixelFontTrieOCR
 
     def trim_masks(masks)
       first_non_zero = masks.find_index(&:positive?)
-      return [0,0] unless first_non_zero
+      return [0, 0] unless first_non_zero
 
       last_non_zero = masks.rindex(&:positive?)
       masks[first_non_zero..last_non_zero] + [0]

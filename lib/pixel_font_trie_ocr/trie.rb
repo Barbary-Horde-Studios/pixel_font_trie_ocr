@@ -1,22 +1,10 @@
 # frozen_string_literal: true
 
 # lib/pixel_font_trie_ocr/trie.rb
+require_relative "trie/node"
 
 class PixelFontTrieOCR
   class Trie
-    class Node
-      attr_accessor :children, :character
-
-      def initialize
-        @children = {}
-        @character = nil
-      end
-
-      def leaf?
-        children.empty?
-      end
-    end
-
     def initialize(char_masks = {})
       insert_hash(char_masks)
     end
@@ -40,48 +28,23 @@ class PixelFontTrieOCR
       node.character ||= character
     end
 
-    def recognize(columns)
-      result = []
-      node = root
-      early = nil
-      last = 0
-      index = 0
-      columns.push(0) unless columns.last.zero?
-      while (index < columns.size)
-        mask = columns[index]
-        if (child = node.children[mask]) # can we descend?
-          node = child # descend tree
-          if node.children.empty? # leaf node
-            if node.character # leaf match
-              result << node.character # add leaf node character
-            elsif early # no match check for early match
-              result << early # add earlier match
-              early = nil
-              index = last # backup to where we matched
-            else # else leaf without either match or early match
-              # dead end
-            end
-            node = root # reset to beginning of tree
-            early = nil # clear early match if any
-          elsif node.character # non leaf match
-            early = node.character
-            last = index
-          end
-        elsif early # no descent with early match
-          result << early # add earlier match
-          early = nil
-          index = last # backup to where we matched
-        else # no character matches mask 
-          index = last
-          last += 1 ## failed match try next column
-          node = root
-        end
-        index += 1 # next column mask in image
+    def parse(columns)
+      columns = columns.dup
+      columns << 0 unless columns.last.zero?
+      match(columns)
+    end
+
+    protected
+
+    def match(columns, pos = 0)
+      return "" unless pos < columns.length
+
+      matched, new_pos = root.match(columns, pos)
+      if matched
+        matched + match(columns, new_pos)
+      else
+        match(columns, pos + 1)
       end
-      if node != root && early
-        result << early
-      end
-      result.join
     end
   end
 end

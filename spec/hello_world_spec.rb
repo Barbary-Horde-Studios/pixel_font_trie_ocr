@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe "Hello World" do
   let(:pft) { PixelFontTrieOCR.new }
   let(:hello_world) { "Hello World" }
@@ -11,4 +13,3 @@ RSpec.describe "Hello World" do
     expect(bitimg).to eq(image)
   end
 end
-

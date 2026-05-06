@@ -36,7 +36,7 @@ class PixelFontTrieOCR
     end
 
     def temp_dir
-      @temp_dir ||= Pathname.new(__dir__).join('..','..','tmp')
+      @temp_dir ||= Pathname.new(__dir__).join("..", "..", "tmp")
     end
 
     def temp_file(name)
@@ -110,7 +110,7 @@ class PixelFontTrieOCR
 
     def new_image(width)
       Magick::Image.new(width, height) do |img|
-        img.background_color = "white" 
+        img.background_color = "white"
       end
     end
 
@@ -174,7 +174,7 @@ class PixelFontTrieOCR
     end
 
     def parse_mask(columns)
-      trie.recognize(columns)
+      trie.parse(columns)
     end
 
     def parse_image(img)
@@ -182,15 +182,15 @@ class PixelFontTrieOCR
     end
 
     def uppercase
-      @uppercase ||= Set.new('A'..'Z')
+      @uppercase ||= Set.new("A".."Z")
     end
 
     def lowercase
-      @lowercase ||= Set.new('a'..'z')
+      @lowercase ||= Set.new("a".."z")
     end
 
     def digits
-      @digits ||= Set.new('0'..'9')
+      @digits ||= Set.new("0".."9")
     end
 
     def alphanumeric
@@ -198,7 +198,7 @@ class PixelFontTrieOCR
     end
 
     def whitespace
-      Set.new([' ',"\r","\n","\t"])
+      Set.new([" ", "\r", "\n", "\t"])
     end
 
     def symbols
