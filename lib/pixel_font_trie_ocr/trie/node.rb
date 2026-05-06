@@ -15,8 +15,10 @@ class PixelFontTrieOCR
       end
 
       def match(columns, index)
-        char, idx = children[columns[index]]&.match(columns, index + 1)
-        return [char, idx] if char
+        if index < columns.length
+          child_char, child_idx = children[columns[index]]&.match(columns, index + 1)
+          return [child_char, child_idx] if child_char
+        end
 
         [character, index]
       end

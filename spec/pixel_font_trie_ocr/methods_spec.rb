@@ -2,8 +2,8 @@
 
 require "spec_helper"
 
-RSpec.describe PixelFontTrieOCR::Methods do
-  let(:instance) { PixelFontTrieOCR.new }
+RSpec.describe PixelFontTrieOCR do
+  let(:instance) { described_class.new }
 
   let(:defined_characters) do
     Set.new(
@@ -18,7 +18,7 @@ RSpec.describe PixelFontTrieOCR::Methods do
     end
 
     it "defaults to DEFAULT_FONT_NAME" do
-      expect(instance.font_name).to eq(PixelFontTrieOCR::Methods::DEFAULT_FONT_NAME)
+      expect(instance.font_name).to eq("hex-synergy_font.ttf")
     end
   end
 
