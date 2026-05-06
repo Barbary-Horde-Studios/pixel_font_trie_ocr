@@ -11,7 +11,7 @@ task :font_map do
   end
   images.each_pair do |char, image|
     result = pft.parse_image(image)
-    puts "#{char} looks like #{result}" unless char == result
+    puts "#{char.inspect} looks like #{result.inspect}" unless char == result
   end
   File.write("tmp/map.yaml", map_data.to_yaml)
   puts "Generated #{map_data.size}"

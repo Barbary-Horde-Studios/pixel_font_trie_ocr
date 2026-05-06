@@ -43,16 +43,36 @@ class PixelFontTrieOCR
     def recognize(columns)
       result = []
       node = root
-      columns.each do |mask|
+      early_match = nil
+      last_match_index = 0
+      index = 0
+      while (index < columns.size)
+        mask = columns[index]
         if (child = node.children[mask])
-          node = child
-          if node.character
-            result << node.character
+          node = child # descend tree
+          if node.children.empty? # leaf node
+            if node.character # leaf match
+              result << node.character
+            elsif early_match # no match check for early match
+              result << early_match
+              index = last_match_index
+            # else leaf without either match or early match
+            end
             node = root
+            early_match = nil
+          elsif node.character # non leaf match
+            early_match = node.character
+            last_match_index = index
           end
-        else
+        else # no character matches mask
+          last_match_index += 1 ## failed match try next column
+          index = last_match_index
           node = root
         end
+        index += 1
+      end
+      if node != root && early_match
+        result << early_match
       end
       result.join
     end
