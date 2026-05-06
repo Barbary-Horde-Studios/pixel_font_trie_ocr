@@ -43,36 +43,43 @@ class PixelFontTrieOCR
     def recognize(columns)
       result = []
       node = root
-      early_match = nil
-      last_match_index = 0
+      early = nil
+      last = 0
       index = 0
+      columns.push(0) unless columns.last.zero?
       while (index < columns.size)
         mask = columns[index]
-        if (child = node.children[mask])
+        if (child = node.children[mask]) # can we descend?
           node = child # descend tree
           if node.children.empty? # leaf node
             if node.character # leaf match
-              result << node.character
-            elsif early_match # no match check for early match
-              result << early_match
-              index = last_match_index
-            # else leaf without either match or early match
+              result << node.character # add leaf node character
+            elsif early # no match check for early match
+              result << early # add earlier match
+              early = nil
+              index = last # backup to where we matched
+            else # else leaf without either match or early match
+              # dead end
             end
-            node = root
-            early_match = nil
+            node = root # reset to beginning of tree
+            early = nil # clear early match if any
           elsif node.character # non leaf match
-            early_match = node.character
-            last_match_index = index
+            early = node.character
+            last = index
           end
-        else # no character matches mask
-          last_match_index += 1 ## failed match try next column
-          index = last_match_index
+        elsif early # no descent with early match
+          result << early # add earlier match
+          early = nil
+          index = last # backup to where we matched
+        else # no character matches mask 
+          index = last
+          last += 1 ## failed match try next column
           node = root
         end
-        index += 1
+        index += 1 # next column mask in image
       end
-      if node != root && early_match
-        result << early_match
+      if node != root && early
+        result << early
       end
       result.join
     end
