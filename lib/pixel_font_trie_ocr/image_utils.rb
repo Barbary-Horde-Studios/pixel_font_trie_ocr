@@ -59,5 +59,27 @@ class PixelFontTrieOCR
       draw.draw(image)
       image
     end
+
+    def auto_crop(image, threshold: 38_000)
+      min_x = image.columns
+      max_x = 0
+      min_y = image.rows
+      max_y = 0
+
+      image.each_pixel do |pixel, x, y|
+        next unless pixel.red < threshold || pixel.green < threshold || pixel.blue < threshold # not fully white
+
+        min_x = [min_x, x].min
+        max_x = [max_x, x].max
+        min_y = [min_y, y].min
+        max_y = [max_y, y].max
+      end
+
+      return image if min_x > max_x # no black pixels
+
+      width = max_x - min_x + 1
+      height = max_y - min_y + 1
+      image.crop(min_x, min_y, width, height, true)
+    end
   end
 end
