@@ -19,3 +19,11 @@ Metrics/BlockLength:
 
 Metrics/AbcSize:
   Max: 25
+
+Naming/MethodParameterName:
+  AllowedNames:
+    - x
+    - y
+    - z
+    - id
+    - db   
