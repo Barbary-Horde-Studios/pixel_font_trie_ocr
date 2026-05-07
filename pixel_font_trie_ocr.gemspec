@@ -36,6 +36,10 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "rmagick", "~> 6.3"
   spec.add_dependency "ttfunk", "~> 1.8"
+  spec.add_development_dependency "rmagick", "~> 6.3"
+  spec.add_development_dependency "rspec", "~> 3.13"
+  spec.add_development_dependency "rubocop", "~> 1.65"
+  spec.add_development_dependency "simplecov", "~> 0.22"
+  spec.add_development_dependency "vips", "~> 8.15"
 end

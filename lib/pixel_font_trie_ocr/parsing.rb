@@ -31,8 +31,26 @@ class PixelFontTrieOCR
       trie.parse(columns)
     end
 
-    def parse_image(img)
-      parse_mask(bitmask(img))
+    def magick_image?(image)
+      magick? && image.is_a?(Magick::Image)
+    end
+
+    def vips_image?(image)
+      vips? && image.is_a?(Vips::Image)
+    end
+
+    def parse_image(image)
+      parse_mask(bitmask(image))
+    end
+
+    def bitmask(image)
+      if magick_image? image
+        MagickColumnExtractor.new(image).extract
+      elsif vips_image? image
+        VipsColumnExtractor.new(image).extract
+      else
+        raise Error, "unknown image class #{image.class.name}"
+      end
     end
   end
 end

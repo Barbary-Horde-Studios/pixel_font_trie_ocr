@@ -8,12 +8,9 @@ gemspec
 gem "irb"
 gem "rake", "~> 13.0"
 
-gem "rspec", "~> 3.0"
-
-gem "rubocop", "~> 1.21"
-
 group :development, :test do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
   gem "pry-byebug", "~> 3.12"
-  gem "vips", "~> 8.15"
 end
+
+gem "logger", "~> 1.7"

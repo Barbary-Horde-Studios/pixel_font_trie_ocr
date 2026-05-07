@@ -16,7 +16,7 @@ class PixelFontTrieOCR
     end
 
     def font_dir
-      @font_dir ||= Pathname.new(__dir__).join("fonts")
+      @font_dir ||= Pathname.new(__dir__).join("..", "..", "fonts")
     end
 
     def font_path

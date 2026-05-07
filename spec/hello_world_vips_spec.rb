@@ -52,7 +52,7 @@ RSpec.describe "Hello World with Vips::Image" do
   context "generated image" do
     let(:vips_filename) { Pathname.new(__dir__).join("..", "tmp", "hello_world_vips-g.png").to_s }
     let(:vips_image) do
-      pft.vips_image("Hello World")
+      pft.vips_text("Hello World")
     end
 
     include_examples "parses correctly"
