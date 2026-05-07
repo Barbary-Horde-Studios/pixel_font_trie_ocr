@@ -9,7 +9,11 @@ Gem::Specification.new do |spec|
   spec.email = ["rob@ferney.org"]
 
   spec.summary = "Deterministic OCR for tiny pixel fonts using a Trie of column bitmasks"
-  spec.description = "Provides perfect accuracy and microsecond performance for crystal-clear, 5-8px pixel fonts by building a trie from font glyphs and matching image column bitmasks."
+  spec.description = <<~DESC
+    Provides perfect accuracy and microsecond performance for crystal-clear,
+    5-8px pixel fonts by building a trie from font glyphs and matching image
+    column bitmasks.
+  DESC
   spec.homepage = "https://github.com/Barbary-Horde-Studios/pixel_font_trie_ocr"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.2.0"

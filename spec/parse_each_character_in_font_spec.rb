@@ -19,6 +19,6 @@ RSpec.describe "Parse Each Character in Font" do
   end
 
   it "only has two mismatches" do
-    expect(mismatch).to eq({ "S" => "5", "z" => "Z" })
+    expect(mismatch).to eq({ "5" => "S", "z" => "Z" })
   end
 end

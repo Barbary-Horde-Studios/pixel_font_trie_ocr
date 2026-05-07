@@ -15,4 +15,11 @@ class PixelFontTrieOCR
   include FontMetadata
   include ImageUtils
   include Parsing
+
+  def initialize(**options)
+    options.each_pair do |key, value|
+      setter = "#{key}="
+      send(setter, value) if respond_to? setter
+    end
+  end
 end

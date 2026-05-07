@@ -6,10 +6,14 @@ class PixelFontTrieOCR
   module Parsing
     def character_images
       @char_masks = {}
-      characters.map.with_index do |char, index|
-        image = text_image(char)
-        mask = bitmask(image)
-        yield(char, image, mask, index) if block_given?
+      parseable_characters.map.with_index do |char, index|
+        if char == " "
+          mask = [0, 0]
+        else
+          image = text_image(char)
+          mask = bitmask(image)
+          yield(char, image, mask, index) if block_given?
+        end
         @char_masks[char] = mask
       end
       @char_masks

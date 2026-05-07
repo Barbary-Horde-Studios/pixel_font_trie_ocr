@@ -84,15 +84,15 @@ class PixelFontTrieOCR
     end
 
     def uppercase
-      @uppercase ||= Set.new("A".."Z")
+      @uppercase ||= Set.new("A".."Z") & characters
     end
 
     def lowercase
-      @lowercase ||= Set.new("a".."z")
+      @lowercase ||= Set.new("a".."z") & characters
     end
 
     def digits
-      @digits ||= Set.new("0".."9")
+      @digits ||= Set.new("0".."9") & characters
     end
 
     def alphanumeric
@@ -105,6 +105,10 @@ class PixelFontTrieOCR
 
     def symbols
       @symbols ||= characters - alphanumeric - whitespace
+    end
+
+    def parseable_characters
+      @parseable_characters ||= alphanumeric | symbols | [" "]
     end
   end
 end

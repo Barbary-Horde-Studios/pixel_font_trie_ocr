@@ -15,4 +15,5 @@ gem "rubocop", "~> 1.21"
 group :development, :test do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
   gem "pry-byebug", "~> 3.12"
+  gem "vips", "~> 8.15"
 end
